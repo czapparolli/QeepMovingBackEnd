@@ -113,7 +113,7 @@ public class CidadeDAO {
 		stmt.executeUpdate();
 		int resultado = stmt.executeUpdate();
 		stmt.close();
-		
+
 		if (resultado > 0) {
 			System.out.println("\nDados atualizados na tabela");
 			System.out.println("\nCidade excluida da tabela com sucesso !");
@@ -123,4 +123,96 @@ public class CidadeDAO {
 		}
 
 	}
+
+	public void retornaCidadeDdd(Scanner teclado) throws SQLException {
+
+		System.out.println("\nMENU DE CONSULTA DE CIDADE POR DDD");
+		teclado.nextLine();
+		System.out.print("\nDigite o número do DDD ");
+		int ddd = teclado.nextInt();
+		String sqlConsulta = "SELECT nome FROM public.cidade where ddd = '" + ddd + "'\n";
+		PreparedStatement stmConsulta = conn.prepareStatement(sqlConsulta);
+		ResultSet result = stmConsulta.executeQuery();
+		System.out.println("\n--------------- CONSULTANDO DADOS DAS CIDADES ---------------");
+		if (result.next()) {
+			result = stmConsulta.executeQuery();
+			while (result.next()) {
+
+				System.out.printf("\n| Nome da cidade: %s | \n", result.getString("nome"));
+			}
+		} else {
+			System.out.println("\n DDD da cidade não encontrado, tente novamente !");
+		}
+
+	}
+
+	public void retornaCidadeEstado(Scanner teclado) throws SQLException {
+
+		System.out.println("\nMENU DE CONSULTA DE CIDADEs POR ESTADO");
+		teclado.nextLine();
+		System.out.print("\nDigite a sigla do estado:  ");
+		String estado = teclado.nextLine();
+		String sqlConsulta = "SELECT nome FROM public.cidade where estado like '" + estado + "'\n";
+		PreparedStatement stmConsulta = conn.prepareStatement(sqlConsulta);
+		ResultSet result = stmConsulta.executeQuery();
+		System.out.println("\n--------------- CONSULTANDO DADOS DAS CIDADES ---------------");
+		if (result.next()) {
+			result = stmConsulta.executeQuery();
+			while (result.next()) {
+
+				System.out.printf("\n| Nome da cidade: %s | \n", result.getString("nome"));
+			}
+		} else {
+			System.out.println("\n Sigla do estado não encontrado, tente novamente !");
+		}
+
+	}
+	
+	public void retornaCidadePrimeiraLetra(Scanner teclado) throws SQLException {
+
+		System.out.println("\nMENU DE CONSULTA DE CIDADES POR PRIMEIRA LETRA");
+		teclado.nextLine();
+		System.out.print("\nDigite a primeira letra da cidade:  ");
+		String letra = teclado.nextLine();
+		String sqlConsulta = "SELECT nome FROM public.cidade where estado ilike '" + letra + "%'\n";
+		PreparedStatement stmConsulta = conn.prepareStatement(sqlConsulta);
+		ResultSet result = stmConsulta.executeQuery();
+		System.out.println("\n--------------- CONSULTANDO DADOS DAS CIDADES ---------------");
+		if (result.next()) {
+			result = stmConsulta.executeQuery();
+			while (result.next()) {
+
+				System.out.printf("\n| Nome da cidade: %s | \n", result.getString("nome"));
+			}
+		} else {
+			System.out.println("\n Letra inicial da cidade não encontrada, tente novamente !");
+		}
+
+	}
+	public void ListaTodasAsCidades(Scanner teclado) throws SQLException {
+
+		String sqlConsulta = "SELECT *  FROM public.cidade order by ddd";
+		PreparedStatement stmConsulta = conn.prepareStatement(sqlConsulta);
+		ResultSet result = stmConsulta.executeQuery();
+		System.out.println("\n--------------- LISTANDO TODOS OS DADOS DAS CIDADES ---------------");
+		if (result.next()) {
+			result = stmConsulta.executeQuery();
+			while (result.next()) {
+				String str = "";
+				Boolean capital = result.getBoolean("capital");
+				if(capital.equals(true)) {
+					str = "Sim";
+				}
+				else {
+					str = "Não";
+				}
+				System.out.printf("\n|DDD: %d | Nome da cidade: %s | Habitantes: %.0f | Renda per capita: %.0f | capital: '"+str+"' |Estado: %s | Nome do prefeito: %s | \n",
+						result.getInt("ddd"), result.getString("nome"),result.getFloat("nro_habitantes"),result.getFloat("renda_per_capita"),result.getString("estado"), result.getString("nome_prefeito"));
+			}
+		} else {
+			System.out.println("\n Letra inicial da cidade não encontrada, tente novamente !");
+		}
+
+	}
+
 }

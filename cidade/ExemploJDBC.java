@@ -19,6 +19,10 @@ public class ExemploJDBC {
 				System.out.println("\n------------------- MENU CADASTRO DE CIDADES -------------------\n");
 				System.out.println("[1] - Cadastrar");
 				System.out.println("[2] - Excluir");
+				System.out.println("[3] - Listar todas as cidades cadastradas");
+				System.out.println("[4] - Consultar cidade por DDD");
+				System.out.println("[5] - Consultar cidade pela primeira Letra");
+				System.out.println("[6] - Consultar todas as cidades por estado");
 				System.out.println("[0] - Para encerrar");
 				System.out.print("\nDigite a opção: ");
 				opcaoMenu = teclado.nextInt();
@@ -31,6 +35,21 @@ public class ExemploJDBC {
 					break;
 				case 2:
 					cidadeDAO.removeCidade(teclado);
+					break;
+				case 3:
+					cidadeDAO.ListaTodasAsCidades(teclado);
+					break;
+				case 4:
+					cidadeDAO.retornaCidadeDdd(teclado);
+					break;
+				case 5:
+					cidadeDAO.retornaCidadePrimeiraLetra(teclado);
+					break;
+				//case 5:
+					//cidadeDAO.retornaCidadePrimeiraLetra(teclado);
+					//break;
+				case 6:
+					cidadeDAO.retornaCidadeEstado(teclado);
 					break;
 				default:
 					System.out.println("Opção inválida!");
